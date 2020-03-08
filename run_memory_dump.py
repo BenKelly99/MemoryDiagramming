@@ -138,7 +138,6 @@ class MemoryDiagram(Frame):
         stack_objs = self.memory["thread stacks"][0]["contents"]
         #stack_objs = stack_objs[1:-1]
         for obj in stack_objs:
-            print(obj)
             if "points-to-base" in obj:
                 if obj["points-to-type"] == "stack":
                     start_box = self.address_mapping[int(obj["address"], 16)]
