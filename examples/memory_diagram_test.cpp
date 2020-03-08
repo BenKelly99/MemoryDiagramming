@@ -9,7 +9,6 @@ int main()
     j[0] = new int;
     j[1] = &i;
     m = *(j+1);
-    DRMEMORY_ANNOTATE_DUMP_MEMORY_LAYOUT();
     j[1] = &k;
     k=10;
     *(j[0]) = 5;
@@ -17,9 +16,6 @@ int main()
     *(j[0]) = 18;
     *m = 4;
     l = 3;
-    char *ch = new char[13];
-    ch[4] = 'x';
     DRMEMORY_ANNOTATE_DUMP_MEMORY_LAYOUT();
-    std::cerr << "goodbye\n";
     return 0;
 }
