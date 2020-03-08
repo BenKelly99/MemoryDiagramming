@@ -10,5 +10,6 @@ int main(){
     z[2] = 5;
     long** w = new long*;
     *w = y;
+    long* v = z + 1;
     DRMEMORY_ANNOTATE_DUMP_MEMORY_LAYOUT();
 }

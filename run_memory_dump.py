@@ -121,7 +121,7 @@ class MemoryDiagram(Frame):
 
     def drawStackBoxes(self):
         stack_objs = self.memory["thread stacks"][0]["contents"]
-        stack_objs = stack_objs[3:]
+        #stack_objs = stack_objs[1:-1]
         self.drawArray(self.boxWidth / 2, self.boxHeight / 2, self.boxWidth, self.boxHeight, len(stack_objs), True, stack_objs)
         #print(json.dumps(self.address_mapping, indent=4, sort_keys=True))
 
@@ -136,13 +136,20 @@ class MemoryDiagram(Frame):
 
     def generateStackArrows(self):
         stack_objs = self.memory["thread stacks"][0]["contents"]
-        stack_objs = stack_objs[3:]
+        #stack_objs = stack_objs[1:-1]
         for obj in stack_objs:
+            print(obj)
             if "points-to-base" in obj:
-                start_box = self.address_mapping[int(obj["address"], 16)]
-                end_box = self.address_mapping[int(obj["value"], 16)]
-                arrow = Arrow(start_box, end_box)
-                self.arrows.append(arrow)
+                if obj["points-to-type"] == "stack":
+                    start_box = self.address_mapping[int(obj["address"], 16)]
+                    end_box = self.address_mapping[int(obj["value"], 16)]
+                    arrow = Arrow(start_box, end_box)
+                    self.arrows.append(arrow)
+                else:
+                    start_box = self.address_mapping[int(obj["address"], 16)]
+                    end_box = self.address_mapping[int(obj["value"], 16)]
+                    arrow = Arrow(start_box, end_box)
+                    self.arrows.append(arrow)
 
     def generateHeapArrows(self):
         heap_objs = self.memory["heap objects"]
@@ -183,7 +190,7 @@ if __name__ == "__main__":
         with open(file) as f:
             json_outputs.append(json.load(f))
 
-    """print(json.dumps(json_outputs, indent=4, sort_keys=True))"""
+    print(json.dumps(json_outputs, indent=4, sort_keys=True))
 
     root = Tk()
     md = MemoryDiagram(json_outputs[0])

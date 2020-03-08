@@ -1,0 +1,102 @@
+[
+    {
+        "heap objects": [
+            {
+                "address": "0x00007f3d314661b0",
+                "contents": [
+                    {
+                        "address": "0x00007f3d314661b0",
+                        "points-to-base": "0x00007f3d314661f0",
+                        "points-to-offset": "0x0",
+                        "points-to-type": "heap",
+                        "value": "0x00007f3d314661f0"
+                    },
+                    {
+                        "address": "0x00007f3d314661b8",
+                        "points-to-base": "0x00007ffe5d2840d0",
+                        "points-to-offset": "0x18",
+                        "points-to-type": "stack",
+                        "value": "0x00007ffe5d2840e8"
+                    },
+                    {
+                        "address": "0x00007f3d314661c0",
+                        "points-to-base": "0x00007f3d314661f0",
+                        "points-to-offset": "0x0",
+                        "points-to-type": "heap",
+                        "value": "0x00007f3d314661f0"
+                    }
+                ],
+                "size": "24"
+            },
+            {
+                "address": "0x00007f3d314661f0",
+                "contents": [
+                    {
+                        "address": "0x00007f3d314661f0",
+                        "value": "0x0000000000000012"
+                    }
+                ],
+                "size": "8"
+            }
+        ],
+        "thread stacks": [
+            {
+                "address": "0x00007ffe5d2840d0",
+                "contents": [
+                    {
+                        "address": "0x00007ffe5d2840d0",
+                        "points-to-base": "0x00007ffe5d2840d0",
+                        "points-to-offset": "0x40",
+                        "points-to-type": "stack",
+                        "value": "0x00007ffe5d284110"
+                    },
+                    {
+                        "address": "0x00007ffe5d2840d8",
+                        "value": "0x00007f3d31449247"
+                    },
+                    {
+                        "address": "0x00007ffe5d2840e0",
+                        "value": "0x0000000000000004"
+                    },
+                    {
+                        "address": "0x00007ffe5d2840e8",
+                        "value": "0x000000000000000a"
+                    },
+                    {
+                        "address": "0x00007ffe5d2840f0",
+                        "points-to-base": "0x00007f3d314661b0",
+                        "points-to-offset": "0x0",
+                        "points-to-type": "heap",
+                        "value": "0x00007f3d314661b0"
+                    },
+                    {
+                        "address": "0x00007ffe5d2840f8",
+                        "points-to-base": "0x00007ffe5d2840d0",
+                        "points-to-offset": "0x10",
+                        "points-to-type": "stack",
+                        "value": "0x00007ffe5d2840e0"
+                    },
+                    {
+                        "address": "0x00007ffe5d284100",
+                        "value": "0x0000000000000003"
+                    },
+                    {
+                        "address": "0x00007ffe5d284108",
+                        "value": "0xd3f1a3e3fd2ac000"
+                    },
+                    {
+                        "address": "0x00007ffe5d284110",
+                        "value": "0x0000000000000000"
+                    }
+                ],
+                "size": "72",
+                "thread_pc (CURRENTLY_BROKEN)": "0x0000000000000000"
+            }
+        ]
+    }
+]
+{'address': '0x00007ffe5d2840e0', 'value': '0x0000000000000004'}
+{'address': '0x00007ffe5d2840e8', 'value': '0x000000000000000a'}
+{'address': '0x00007ffe5d2840f0', 'value': '0x00007f3d314661b0', 'points-to-type': 'heap', 'points-to-base': '0x00007f3d314661b0', 'points-to-offset': '0x0'}
+{'address': '0x00007ffe5d2840f8', 'value': '0x00007ffe5d2840e0', 'points-to-type': 'stack', 'points-to-base': '0x00007ffe5d2840d0', 'points-to-offset': '0x10'}
+{'address': '0x00007ffe5d284100', 'value': '0x0000000000000003'}

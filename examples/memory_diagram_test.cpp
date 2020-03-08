@@ -3,10 +3,10 @@
 
 int main()
 {
-    int i,**j,k,l,*m;
+    long i,**j,k,l,*m;
     i = 0;
-    j = new int*[3];
-    j[0] = new int;
+    j = new long*[3];
+    j[0] = new long;
     j[1] = &i;
     m = *(j+1);
     j[1] = &k;
