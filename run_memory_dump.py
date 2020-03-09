@@ -193,7 +193,16 @@ class MemoryDiagram(Frame):
 
     def drawArrow(self, inter, arrow):
         for i in range(len(arrow.key_points) - 1):
-            self.canvas.create_line(arrow.key_points[i][0], arrow.key_points[i][1], inter[0], inter[1], arrow = LAST)
+            perp_line = (-inter[1]+arrow.key_points[i][1], inter[0]-arrow.key_points[i][0])
+            mid_point = ((arrow.key_points[i][0] + inter[0])/2,(arrow.key_points[i][1] + inter[1])/2)
+            if inter[1] < arrow.key_points[i][1]:
+                new_point_x = mid_point[0]+(perp_line[0]/4)
+                new_point_y = mid_point[1]+(perp_line[1]/4)
+            else:
+                new_point_x = mid_point[0]-(perp_line[0]/4)
+                new_point_y = mid_point[1]-(perp_line[1]/4)
+
+            self.canvas.create_line(arrow.key_points[i][0], arrow.key_points[i][1], new_point_x, new_point_y, inter[0], inter[1], arrow = LAST, smooth=True, width=2)
 
 
 if __name__ == "__main__":
