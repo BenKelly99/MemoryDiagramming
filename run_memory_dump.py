@@ -44,30 +44,32 @@ class Box:
         for edge in self.edges:
             inter = self.find_line_intersection(line, edge)
             if not inter == None:
-                intersection_pts.append(inter)
+                intersection_pts.append((inter,edge))
         if len(intersection_pts) == 0:
             return None
         min_point = None
+        min_edge = None
         min_sq_dist = float("inf")
-        for pt in intersection_pts:
+        for pt,edge in intersection_pts:
             dist = (line[0][0] - pt[0]) * (line[0][0] - pt[0]) + (line[0][1] - pt[1]) * (line[0][1] - pt[1])
             if dist < min_sq_dist:
                 min_sq_dist = dist
                 min_point = pt
-        return min_point
-        
-        
+                min_edge = edge
+        return min_point, min_edge
+
+
 
 class Arrow:
     def __init__(self, startBox, endBox):
         self.start = startBox
         self.end = endBox
         self.key_points = [startBox.center, endBox.center]
-    
+
     def determineKeyPoints(self, boxes, arrows):
         """Determine the key points of this arrow"""
 
-    
+
 
 class MemoryDiagram(Frame):
     def __init__(self, memory, boxWidth = 100, boxHeight = 50):
@@ -79,14 +81,14 @@ class MemoryDiagram(Frame):
         self.boxes = []
         self.arrows = []
         self.initUI()
-    
+
     def initUI(self):
         self.master.title("Lines")
         self.pack(fill=BOTH, expand=1)
         self.canvas = Canvas(self)
         self.canvas.pack(fill=BOTH, expand=1)
         self.drawDiagram()
-    
+
     def drawDiagram(self):
         self.drawStackBoxes()
         self.canvas.create_line(2 * self.boxWidth, 0, 2 * self.boxWidth, 1000, dash=(4,2))
@@ -94,7 +96,7 @@ class MemoryDiagram(Frame):
         self.generateHeapArrows()
         self.generateStackArrows()
         self.drawArrows()
-    
+
     def drawArray(self, x, y, width, height, number, vert, objects = None, offset = 0):
         for i in range(number):
             x_loc = 0
@@ -160,21 +162,38 @@ class MemoryDiagram(Frame):
                     arrow = Arrow(start_box, end_box)
                     self.arrows.append(arrow)
 
+    def organizeArrows(self, edge, arrows):
+        step_x = abs((edge[0][0] - edge[1][0])/(len(arrows)+1))
+        step_y = abs((edge[0][1] - edge[1][1])/(len(arrows)+1))
+        start_x = min(edge[0][0], edge[1][0])
+        start_y = min(edge[0][1], edge[1][1])
+        for i in range(len(arrows)):
+            start_x+=step_x
+            start_y+=step_y
+            arrows[i] = ((start_x,start_y), arrows[i][1])
+        return arrows
+
     def drawArrows(self):
+        sorted_edges = {}
         for arrow in self.arrows:
             arrow.determineKeyPoints(self.boxes, self.arrows)
-            self.drawArrow(arrow)
+            for i in range(len(arrow.key_points) - 1):
+                inter, edge = arrow.end.find_first_intersection(((arrow.key_points[i][0], arrow.key_points[i][1]), (arrow.key_points[i+1][0], arrow.key_points[i+1][1])))
+                if edge not in sorted_edges:
+                    sorted_edges[edge] = []
+                # Puts the intersection point, as well as the arrow inside the
+                # Hash table organized by the edge it intersects with
+                sorted_edges[edge].append((inter,arrow))
 
-    def drawArrow(self, arrow):
+        for edge in sorted_edges:
+            sorted_edges[edge] = sorted(sorted_edges[edge], key = lambda x:(x[0][0], x[0][1]))
+            sorted_edges[edge] = self.organizeArrows(edge, sorted_edges[edge])
+            for arrow in sorted_edges[edge]:
+                self.drawArrow(arrow[0], arrow[1])
+
+    def drawArrow(self, inter, arrow):
         for i in range(len(arrow.key_points) - 1):
-            if i == len(arrow.key_points) - 2:
-                inter = arrow.end.find_first_intersection(((arrow.key_points[i][0], arrow.key_points[i][1]), (arrow.key_points[i+1][0], arrow.key_points[i+1][1])))
-                if inter == None:
-                    self.canvas.create_line(arrow.key_points[i][0], arrow.key_points[i][1], arrow.key_points[i+1][0], arrow.key_points[i+1][1], arrow = LAST)
-                else:
-                    self.canvas.create_line(arrow.key_points[i][0], arrow.key_points[i][1], inter[0], inter[1], arrow = LAST)
-            else:
-                self.canvas.create_line(arrow.key_points[i][0], arrow.key_points[i][1], arrow.key_points[i+1][0], arrow.key_points[i+1][1])
+            self.canvas.create_line(arrow.key_points[i][0], arrow.key_points[i][1], inter[0], inter[1], arrow = LAST)
 
 
 if __name__ == "__main__":
