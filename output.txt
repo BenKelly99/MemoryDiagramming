@@ -1,102 +1,384 @@
-[
-    {
-        "heap objects": [
-            {
-                "address": "0x00007f3d314661b0",
-                "contents": [
-                    {
-                        "address": "0x00007f3d314661b0",
-                        "points-to-base": "0x00007f3d314661f0",
-                        "points-to-offset": "0x0",
-                        "points-to-type": "heap",
-                        "value": "0x00007f3d314661f0"
-                    },
-                    {
-                        "address": "0x00007f3d314661b8",
-                        "points-to-base": "0x00007ffe5d2840d0",
-                        "points-to-offset": "0x18",
-                        "points-to-type": "stack",
-                        "value": "0x00007ffe5d2840e8"
-                    },
-                    {
-                        "address": "0x00007f3d314661c0",
-                        "points-to-base": "0x00007f3d314661f0",
-                        "points-to-offset": "0x0",
-                        "points-to-type": "heap",
-                        "value": "0x00007f3d314661f0"
-                    }
-                ],
-                "size": "24"
-            },
-            {
-                "address": "0x00007f3d314661f0",
-                "contents": [
-                    {
-                        "address": "0x00007f3d314661f0",
-                        "value": "0x0000000000000012"
-                    }
-                ],
-                "size": "8"
-            }
-        ],
-        "thread stacks": [
-            {
-                "address": "0x00007ffe5d2840d0",
-                "contents": [
-                    {
-                        "address": "0x00007ffe5d2840d0",
-                        "points-to-base": "0x00007ffe5d2840d0",
-                        "points-to-offset": "0x40",
-                        "points-to-type": "stack",
-                        "value": "0x00007ffe5d284110"
-                    },
-                    {
-                        "address": "0x00007ffe5d2840d8",
-                        "value": "0x00007f3d31449247"
-                    },
-                    {
-                        "address": "0x00007ffe5d2840e0",
-                        "value": "0x0000000000000004"
-                    },
-                    {
-                        "address": "0x00007ffe5d2840e8",
-                        "value": "0x000000000000000a"
-                    },
-                    {
-                        "address": "0x00007ffe5d2840f0",
-                        "points-to-base": "0x00007f3d314661b0",
-                        "points-to-offset": "0x0",
-                        "points-to-type": "heap",
-                        "value": "0x00007f3d314661b0"
-                    },
-                    {
-                        "address": "0x00007ffe5d2840f8",
-                        "points-to-base": "0x00007ffe5d2840d0",
-                        "points-to-offset": "0x10",
-                        "points-to-type": "stack",
-                        "value": "0x00007ffe5d2840e0"
-                    },
-                    {
-                        "address": "0x00007ffe5d284100",
-                        "value": "0x0000000000000003"
-                    },
-                    {
-                        "address": "0x00007ffe5d284108",
-                        "value": "0xd3f1a3e3fd2ac000"
-                    },
-                    {
-                        "address": "0x00007ffe5d284110",
-                        "value": "0x0000000000000000"
-                    }
-                ],
-                "size": "72",
-                "thread_pc (CURRENTLY_BROKEN)": "0x0000000000000000"
-            }
-        ]
-    }
-]
-{'address': '0x00007ffe5d2840e0', 'value': '0x0000000000000004'}
-{'address': '0x00007ffe5d2840e8', 'value': '0x000000000000000a'}
-{'address': '0x00007ffe5d2840f0', 'value': '0x00007f3d314661b0', 'points-to-type': 'heap', 'points-to-base': '0x00007f3d314661b0', 'points-to-offset': '0x0'}
-{'address': '0x00007ffe5d2840f8', 'value': '0x00007ffe5d2840e0', 'points-to-type': 'stack', 'points-to-base': '0x00007ffe5d2840d0', 'points-to-offset': '0x10'}
-{'address': '0x00007ffe5d284100', 'value': '0x0000000000000003'}
+
+/tmp/memory_diagram/a.out:     file format elf64-x86-64
+
+Contents of the .eh_frame section (loaded from /tmp/memory_diagram/a.out):
+
+
+00000000 0000000000000014 00000000 CIE
+  Version:               1
+  Augmentation:          "zR"
+  Code alignment factor: 1
+  Data alignment factor: -8
+  Return address column: 16
+  Augmentation data:     1b
+  DW_CFA_def_cfa: r7 (rsp) ofs 8
+  DW_CFA_offset: r16 (rip) at cfa-8
+  DW_CFA_nop
+  DW_CFA_nop
+
+00000018 0000000000000014 0000001c FDE cie=00000000 pc=0000000000001040..000000000000106f
+  DW_CFA_advance_loc: 4 to 0000000000001044
+  DW_CFA_undefined: r16 (rip)
+  DW_CFA_nop
+  DW_CFA_nop
+  DW_CFA_nop
+  DW_CFA_nop
+
+00000030 0000000000000024 00000034 FDE cie=00000000 pc=0000000000001020..0000000000001040
+  DW_CFA_def_cfa_offset: 16
+  DW_CFA_advance_loc: 6 to 0000000000001026
+  DW_CFA_def_cfa_offset: 24
+  DW_CFA_advance_loc: 10 to 0000000000001030
+  DW_CFA_def_cfa_expression (DW_OP_breg7 (rsp): 8; DW_OP_breg16 (rip): 0; DW_OP_lit15; DW_OP_and; DW_OP_lit11; DW_OP_ge; DW_OP_lit3; DW_OP_shl; DW_OP_plus)
+  DW_CFA_nop
+  DW_CFA_nop
+  DW_CFA_nop
+  DW_CFA_nop
+
+00000058 000000000000001c 0000005c FDE cie=00000000 pc=0000000000001139..00000000000011a6
+  DW_CFA_advance_loc: 1 to 000000000000113a
+  DW_CFA_def_cfa_offset: 16
+  DW_CFA_offset: r6 (rbp) at cfa-16
+  DW_CFA_advance_loc: 3 to 000000000000113d
+  DW_CFA_def_cfa_register: r6 (rbp)
+  DW_CFA_advance_loc1: 104 to 00000000000011a5
+  DW_CFA_def_cfa: r7 (rsp) ofs 8
+  DW_CFA_nop
+  DW_CFA_nop
+
+00000078 000000000000001c 0000007c FDE cie=00000000 pc=00000000000011a6..00000000000011c3
+  DW_CFA_advance_loc: 1 to 00000000000011a7
+  DW_CFA_def_cfa_offset: 16
+  DW_CFA_offset: r6 (rbp) at cfa-16
+  DW_CFA_advance_loc: 3 to 00000000000011aa
+  DW_CFA_def_cfa_register: r6 (rbp)
+  DW_CFA_advance_loc: 24 to 00000000000011c2
+  DW_CFA_def_cfa: r7 (rsp) ofs 8
+  DW_CFA_nop
+  DW_CFA_nop
+  DW_CFA_nop
+
+00000098 0000000000000044 0000009c FDE cie=00000000 pc=00000000000011d0..0000000000001235
+  DW_CFA_advance_loc: 6 to 00000000000011d6
+  DW_CFA_def_cfa_offset: 16
+  DW_CFA_offset: r15 (r15) at cfa-16
+  DW_CFA_advance_loc: 9 to 00000000000011df
+  DW_CFA_def_cfa_offset: 24
+  DW_CFA_offset: r14 (r14) at cfa-24
+  DW_CFA_advance_loc: 5 to 00000000000011e4
+  DW_CFA_def_cfa_offset: 32
+  DW_CFA_offset: r13 (r13) at cfa-32
+  DW_CFA_advance_loc: 5 to 00000000000011e9
+  DW_CFA_def_cfa_offset: 40
+  DW_CFA_offset: r12 (r12) at cfa-40
+  DW_CFA_advance_loc: 4 to 00000000000011ed
+  DW_CFA_def_cfa_offset: 48
+  DW_CFA_offset: r6 (rbp) at cfa-48
+  DW_CFA_advance_loc: 8 to 00000000000011f5
+  DW_CFA_def_cfa_offset: 56
+  DW_CFA_offset: r3 (rbx) at cfa-56
+  DW_CFA_advance_loc: 7 to 00000000000011fc
+  DW_CFA_def_cfa_offset: 64
+  DW_CFA_advance_loc: 46 to 000000000000122a
+  DW_CFA_def_cfa_offset: 56
+  DW_CFA_advance_loc: 1 to 000000000000122b
+  DW_CFA_def_cfa_offset: 48
+  DW_CFA_advance_loc: 1 to 000000000000122c
+  DW_CFA_def_cfa_offset: 40
+  DW_CFA_advance_loc: 2 to 000000000000122e
+  DW_CFA_def_cfa_offset: 32
+  DW_CFA_advance_loc: 2 to 0000000000001230
+  DW_CFA_def_cfa_offset: 24
+  DW_CFA_advance_loc: 2 to 0000000000001232
+  DW_CFA_def_cfa_offset: 16
+  DW_CFA_advance_loc: 2 to 0000000000001234
+  DW_CFA_def_cfa_offset: 8
+  DW_CFA_nop
+
+000000e0 0000000000000010 000000e4 FDE cie=00000000 pc=0000000000001240..0000000000001245
+  DW_CFA_nop
+  DW_CFA_nop
+  DW_CFA_nop
+
+000000f4 ZERO terminator
+
+
+Contents of the .debug_aranges section (loaded from /tmp/memory_diagram/a.out):
+
+  Length:                   44
+  Version:                  2
+  Offset into .debug_info:  0x0
+  Pointer Size:             8
+  Segment Size:             0
+
+    Address            Length
+    0000000000001139 000000000000006d 
+    0000000000000000 0000000000000000 
+
+Contents of the .debug_info section (loaded from /tmp/memory_diagram/a.out):
+
+  Compilation Unit @ offset 0x0:
+   Length:        0xf1 (32-bit)
+   Version:       4
+   Abbrev Offset: 0x0
+   Pointer Size:  8
+ <0><b>: Abbrev Number: 1 (DW_TAG_compile_unit)
+    <c>   DW_AT_producer    : (indirect string, offset: 0xd8): GNU C++14 9.2.1 20200130 -mtune=generic -march=x86-64 -g -O0
+    <10>   DW_AT_language    : 4	(C++)
+    <11>   DW_AT_name        : (indirect string, offset: 0xb7): examples/stack_array_example.cpp
+    <15>   DW_AT_comp_dir    : (indirect string, offset: 0x42): /home/celie/Documents/schoolwork/Spring2020/MemoryDiagramming
+    <19>   DW_AT_low_pc      : 0x1139
+    <21>   DW_AT_high_pc     : 0x6d
+    <29>   DW_AT_stmt_list   : 0x0
+ <1><2d>: Abbrev Number: 2 (DW_TAG_base_type)
+    <2e>   DW_AT_byte_size   : 8
+    <2f>   DW_AT_encoding    : 5	(signed)
+    <30>   DW_AT_name        : (indirect string, offset: 0x11a): long int
+ <1><34>: Abbrev Number: 2 (DW_TAG_base_type)
+    <35>   DW_AT_byte_size   : 8
+    <36>   DW_AT_encoding    : 7	(unsigned)
+    <37>   DW_AT_name        : (indirect string, offset: 0x24): long unsigned int
+ <1><3b>: Abbrev Number: 2 (DW_TAG_base_type)
+    <3c>   DW_AT_byte_size   : 8
+    <3d>   DW_AT_encoding    : 5	(signed)
+    <3e>   DW_AT_name        : (indirect string, offset: 0x115): long long int
+ <1><42>: Abbrev Number: 2 (DW_TAG_base_type)
+    <43>   DW_AT_byte_size   : 16
+    <44>   DW_AT_encoding    : 4	(float)
+    <45>   DW_AT_name        : (indirect string, offset: 0x36): long double
+ <1><49>: Abbrev Number: 3 (DW_TAG_unspecified_type)
+    <4a>   DW_AT_name        : (indirect string, offset: 0x0): decltype(nullptr)
+ <1><4e>: Abbrev Number: 4 (DW_TAG_subprogram)
+    <4f>   DW_AT_external    : 1
+    <4f>   DW_AT_name        : (indirect string, offset: 0xb2): main
+    <53>   DW_AT_decl_file   : 1
+    <54>   DW_AT_decl_line   : 3
+    <55>   DW_AT_decl_column : 5
+    <56>   DW_AT_type        : <0xcb>
+    <5a>   DW_AT_low_pc      : 0x1139
+    <62>   DW_AT_high_pc     : 0x6d
+    <6a>   DW_AT_frame_base  : 1 byte block: 9c 	(DW_OP_call_frame_cfa)
+    <6c>   DW_AT_GNU_all_tail_call_sites: 1
+    <6c>   DW_AT_sibling     : <0xcb>
+ <2><70>: Abbrev Number: 5 (DW_TAG_variable)
+    <71>   DW_AT_name        : arr
+    <75>   DW_AT_decl_file   : 1
+    <76>   DW_AT_decl_line   : 4
+    <77>   DW_AT_decl_column : 10
+    <78>   DW_AT_type        : <0xd2>
+    <7c>   DW_AT_location    : 2 byte block: 91 50 	(DW_OP_fbreg: -48)
+ <2><7f>: Abbrev Number: 5 (DW_TAG_variable)
+    <80>   DW_AT_name        : x
+    <82>   DW_AT_decl_file   : 1
+    <83>   DW_AT_decl_line   : 8
+    <84>   DW_AT_decl_column : 10
+    <85>   DW_AT_type        : <0x2d>
+    <89>   DW_AT_location    : 2 byte block: 91 48 	(DW_OP_fbreg: -56)
+ <2><8c>: Abbrev Number: 6 (DW_TAG_lexical_block)
+    <8d>   DW_AT_low_pc      : 0x1170
+    <95>   DW_AT_high_pc     : 0x1b
+ <3><9d>: Abbrev Number: 7 (DW_TAG_label)
+    <9e>   DW_AT_name        : (indirect string, offset: 0x80): native_run
+    <a2>   DW_AT_decl_file   : 1
+    <a3>   DW_AT_decl_line   : 9
+    <a4>   DW_AT_decl_column : 5
+    <a5>   DW_AT_low_pc      : 0x118a
+ <3><ad>: Abbrev Number: 7 (DW_TAG_label)
+    <ae>   DW_AT_name        : (indirect string, offset: 0x12): native_end_marker
+    <b2>   DW_AT_decl_file   : 1
+    <b3>   DW_AT_decl_line   : 9
+    <b4>   DW_AT_decl_column : 5
+    <b5>   DW_AT_low_pc      : 0x118b
+ <3><bd>: Abbrev Number: 8 (DW_TAG_variable)
+    <be>   DW_AT_name        : (indirect string, offset: 0x8b): drmemory_dump_memory_layout_label
+    <c2>   DW_AT_decl_file   : 1
+    <c3>   DW_AT_decl_line   : 9
+    <c4>   DW_AT_decl_column : 5
+    <c5>   DW_AT_type        : <0xe2>
+    <c9>   DW_AT_external    : 1
+    <c9>   DW_AT_declaration : 1
+ <3><c9>: Abbrev Number: 0
+ <2><ca>: Abbrev Number: 0
+ <1><cb>: Abbrev Number: 9 (DW_TAG_base_type)
+    <cc>   DW_AT_byte_size   : 4
+    <cd>   DW_AT_encoding    : 5	(signed)
+    <ce>   DW_AT_name        : int
+ <1><d2>: Abbrev Number: 10 (DW_TAG_array_type)
+    <d3>   DW_AT_type        : <0x2d>
+    <d7>   DW_AT_sibling     : <0xe2>
+ <2><db>: Abbrev Number: 11 (DW_TAG_subrange_type)
+    <dc>   DW_AT_type        : <0x34>
+    <e0>   DW_AT_upper_bound : 2
+ <2><e1>: Abbrev Number: 0
+ <1><e2>: Abbrev Number: 12 (DW_TAG_pointer_type)
+    <e3>   DW_AT_byte_size   : 8
+    <e4>   DW_AT_type        : <0xef>
+ <1><e8>: Abbrev Number: 2 (DW_TAG_base_type)
+    <e9>   DW_AT_byte_size   : 1
+    <ea>   DW_AT_encoding    : 6	(signed char)
+    <eb>   DW_AT_name        : (indirect string, offset: 0xad): char
+ <1><ef>: Abbrev Number: 13 (DW_TAG_const_type)
+    <f0>   DW_AT_type        : <0xe8>
+ <1><f4>: Abbrev Number: 0
+
+Contents of the .debug_abbrev section (loaded from /tmp/memory_diagram/a.out):
+
+  Number TAG (0x0)
+   1      DW_TAG_compile_unit    [has children]
+    DW_AT_producer     DW_FORM_strp
+    DW_AT_language     DW_FORM_data1
+    DW_AT_name         DW_FORM_strp
+    DW_AT_comp_dir     DW_FORM_strp
+    DW_AT_low_pc       DW_FORM_addr
+    DW_AT_high_pc      DW_FORM_data8
+    DW_AT_stmt_list    DW_FORM_sec_offset
+    DW_AT value: 0     DW_FORM value: 0
+   2      DW_TAG_base_type    [no children]
+    DW_AT_byte_size    DW_FORM_data1
+    DW_AT_encoding     DW_FORM_data1
+    DW_AT_name         DW_FORM_strp
+    DW_AT value: 0     DW_FORM value: 0
+   3      DW_TAG_unspecified_type    [no children]
+    DW_AT_name         DW_FORM_strp
+    DW_AT value: 0     DW_FORM value: 0
+   4      DW_TAG_subprogram    [has children]
+    DW_AT_external     DW_FORM_flag_present
+    DW_AT_name         DW_FORM_strp
+    DW_AT_decl_file    DW_FORM_data1
+    DW_AT_decl_line    DW_FORM_data1
+    DW_AT_decl_column  DW_FORM_data1
+    DW_AT_type         DW_FORM_ref4
+    DW_AT_low_pc       DW_FORM_addr
+    DW_AT_high_pc      DW_FORM_data8
+    DW_AT_frame_base   DW_FORM_exprloc
+    DW_AT_GNU_all_tail_call_sites DW_FORM_flag_present
+    DW_AT_sibling      DW_FORM_ref4
+    DW_AT value: 0     DW_FORM value: 0
+   5      DW_TAG_variable    [no children]
+    DW_AT_name         DW_FORM_string
+    DW_AT_decl_file    DW_FORM_data1
+    DW_AT_decl_line    DW_FORM_data1
+    DW_AT_decl_column  DW_FORM_data1
+    DW_AT_type         DW_FORM_ref4
+    DW_AT_location     DW_FORM_exprloc
+    DW_AT value: 0     DW_FORM value: 0
+   6      DW_TAG_lexical_block    [has children]
+    DW_AT_low_pc       DW_FORM_addr
+    DW_AT_high_pc      DW_FORM_data8
+    DW_AT value: 0     DW_FORM value: 0
+   7      DW_TAG_label    [no children]
+    DW_AT_name         DW_FORM_strp
+    DW_AT_decl_file    DW_FORM_data1
+    DW_AT_decl_line    DW_FORM_data1
+    DW_AT_decl_column  DW_FORM_data1
+    DW_AT_low_pc       DW_FORM_addr
+    DW_AT value: 0     DW_FORM value: 0
+   8      DW_TAG_variable    [no children]
+    DW_AT_name         DW_FORM_strp
+    DW_AT_decl_file    DW_FORM_data1
+    DW_AT_decl_line    DW_FORM_data1
+    DW_AT_decl_column  DW_FORM_data1
+    DW_AT_type         DW_FORM_ref4
+    DW_AT_external     DW_FORM_flag_present
+    DW_AT_declaration  DW_FORM_flag_present
+    DW_AT value: 0     DW_FORM value: 0
+   9      DW_TAG_base_type    [no children]
+    DW_AT_byte_size    DW_FORM_data1
+    DW_AT_encoding     DW_FORM_data1
+    DW_AT_name         DW_FORM_string
+    DW_AT value: 0     DW_FORM value: 0
+   10      DW_TAG_array_type    [has children]
+    DW_AT_type         DW_FORM_ref4
+    DW_AT_sibling      DW_FORM_ref4
+    DW_AT value: 0     DW_FORM value: 0
+   11      DW_TAG_subrange_type    [no children]
+    DW_AT_type         DW_FORM_ref4
+    DW_AT_upper_bound  DW_FORM_data1
+    DW_AT value: 0     DW_FORM value: 0
+   12      DW_TAG_pointer_type    [no children]
+    DW_AT_byte_size    DW_FORM_data1
+    DW_AT_type         DW_FORM_ref4
+    DW_AT value: 0     DW_FORM value: 0
+   13      DW_TAG_const_type    [no children]
+    DW_AT_type         DW_FORM_ref4
+    DW_AT value: 0     DW_FORM value: 0
+
+Raw dump of debug contents of section .debug_line (loaded from /tmp/memory_diagram/a.out):
+
+  Offset:                      0x0
+  Length:                      103
+  DWARF Version:               3
+  Prologue Length:             55
+  Minimum Instruction Length:  1
+  Initial value of 'is_stmt':  1
+  Line Base:                   -5
+  Line Range:                  14
+  Opcode Base:                 13
+
+ Opcodes:
+  Opcode 1 has 0 args
+  Opcode 2 has 1 arg
+  Opcode 3 has 1 arg
+  Opcode 4 has 1 arg
+  Opcode 5 has 1 arg
+  Opcode 6 has 0 args
+  Opcode 7 has 0 args
+  Opcode 8 has 0 args
+  Opcode 9 has 1 arg
+  Opcode 10 has 0 args
+  Opcode 11 has 0 args
+  Opcode 12 has 1 arg
+
+ The Directory Table (offset 0x1b):
+  1	examples
+
+ The File Name Table (offset 0x25):
+  Entry	Dir	Time	Size	Name
+  1	1	0	0	stack_array_example.cpp
+
+ Line Number Statements:
+  [0x00000041]  Set column to 11
+  [0x00000043]  Extended opcode 2: set Address to 0x1139
+  [0x0000004e]  Special opcode 7: advance Address by 0 to 0x1139 and Line by 2 to 3
+  [0x0000004f]  Special opcode 117: advance Address by 8 to 0x1141 and Line by 0 to 3
+  [0x00000050]  Set column to 12
+  [0x00000052]  Special opcode 217: advance Address by 15 to 0x1150 and Line by 2 to 5
+  [0x00000053]  Special opcode 118: advance Address by 8 to 0x1158 and Line by 1 to 6
+  [0x00000054]  Special opcode 118: advance Address by 8 to 0x1160 and Line by 1 to 7
+  [0x00000055]  Set column to 10
+  [0x00000057]  Special opcode 118: advance Address by 8 to 0x1168 and Line by 1 to 8
+  [0x00000058]  Set column to 5
+  [0x0000005a]  Special opcode 146: advance Address by 10 to 0x1172 and Line by 1 to 9
+  [0x0000005b]  Extended opcode 4: set Discriminator to 1
+  [0x0000005f]  Set is_stmt to 0
+  [0x00000060]  Advance PC by constant 17 to 0x1183
+  [0x00000061]  Special opcode 33: advance Address by 2 to 0x1185 and Line by 0 to 9
+  [0x00000062]  Set column to 1
+  [0x00000064]  Set is_stmt to 1
+  [0x00000065]  Special opcode 90: advance Address by 6 to 0x118b and Line by 1 to 10
+  [0x00000066]  Advance PC by 27 to 0x11a6
+  [0x00000068]  Extended opcode 1: End of Sequence
+
+
+Contents of the .debug_str section (loaded from /tmp/memory_diagram/a.out):
+
+  0x00000000 6465636c 74797065 286e756c 6c707472 decltype(nullptr
+  0x00000010 29006e61 74697665 5f656e64 5f6d6172 ).native_end_mar
+  0x00000020 6b657200 6c6f6e67 20756e73 69676e65 ker.long unsigne
+  0x00000030 6420696e 74006c6f 6e672064 6f75626c d int.long doubl
+  0x00000040 65002f68 6f6d652f 63656c69 652f446f e./home/celie/Do
+  0x00000050 63756d65 6e74732f 7363686f 6f6c776f cuments/schoolwo
+  0x00000060 726b2f53 7072696e 67323032 302f4d65 rk/Spring2020/Me
+  0x00000070 6d6f7279 44696167 72616d6d 696e6700 moryDiagramming.
+  0x00000080 6e617469 76655f72 756e0064 726d656d native_run.drmem
+  0x00000090 6f72795f 64756d70 5f6d656d 6f72795f ory_dump_memory_
+  0x000000a0 6c61796f 75745f6c 6162656c 00636861 layout_label.cha
+  0x000000b0 72006d61 696e0065 78616d70 6c65732f r.main.examples/
+  0x000000c0 73746163 6b5f6172 7261795f 6578616d stack_array_exam
+  0x000000d0 706c652e 63707000 474e5520 432b2b31 ple.cpp.GNU C++1
+  0x000000e0 3420392e 322e3120 32303230 30313330 4 9.2.1 20200130
+  0x000000f0 202d6d74 756e653d 67656e65 72696320  -mtune=generic 
+  0x00000100 2d6d6172 63683d78 38362d36 34202d67 -march=x86-64 -g
+  0x00000110 202d4f30 006c6f6e 67206c6f 6e672069  -O0.long long i
+  0x00000120 6e7400                              nt.
+
