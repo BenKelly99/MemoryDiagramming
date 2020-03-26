@@ -229,19 +229,16 @@ if __name__ == "__main__":
             break
     dumpLine += 1
     print("DUMP AT " + dumpFile + ":" + str(dumpLine))
-    gdb_result = subprocess.Popen("gdb /tmp/memory_diagram/a.out", stdin = subprocess.PIPE, shell=True)
-    gdb_result.stdin.write(("break " + dumpFile + ":" + str(dumpLine) + "\n").encode())
-    gdb_result.stdin.write(b"r\n")
-    gdb_result.stdin.write(b"source get_local_var_info.py\n")
-    gdb_result.stdin.write(b"c\n")
-    gdb_result.stdin.write(b"q\n")
-    text = gdb_result.stdout.read()
+    gdb_result = subprocess.Popen("gdb /tmp/memory_diagram/a.out", stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell=True)
+    gdb_result_text = gdb_result.communicate(("break " + dumpFile + ":" + str(dumpLine) + "\n" + "r\n" + "source get_local_var_info.py\n" + "c\n" + "q\n").encode())
+    gdb_result_txt_stdout = gdb_result_text[0]
+    gdb_result_txt_stderr = gdb_result_text[1]
 
-    print(json.dumps(json_outputs, indent=4, sort_keys=True))
+    #print(json.dumps(json_outputs, indent=4, sort_keys=True))
 
-    root = Tk()
-    md = MemoryDiagram(json_outputs[0])
-    root.geometry("1000x1000")
-    root.mainloop()
+    #root = Tk()
+    #md = MemoryDiagram(json_outputs[0])
+    #root.geometry("1000x1000")
+    #root.mainloop()
 
-    print(text)
+    print(gdb_result_txt_stdout)

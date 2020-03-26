@@ -24,9 +24,7 @@ while(block):
     block = block.superblock
 print("##### GDB DEBUG INFO BEGIN ####")
 print("VARIABLES")
-print(variables)
 for var in variables:
     gdb.execute("p \"" + var.name + " offset\"")
     gdb.execute("p (void*) &" + var.name + " - $sp")
-
 print("##### GDB DEBUG INFO END ####")
