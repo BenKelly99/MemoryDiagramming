@@ -23,8 +23,8 @@ while(block):
             variables.append(Variable(symbol.name, var_type_str, str(symbol.value(frame))));
     block = block.superblock
 print("##### GDB DEBUG INFO BEGIN ####")
-print("VARIABLES")
 for var in variables:
-    gdb.execute("p \"" + var.name + " offset\"")
+    gdb.execute("p \"" + var.name + "\"")
+    gdb.execute("p \"" + var.type + "\"")
     gdb.execute("p (void*) &" + var.name + " - $sp")
 print("##### GDB DEBUG INFO END ####")

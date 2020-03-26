@@ -4,7 +4,13 @@ import re
 import subprocess
 import json
 
-from tkinter import Tk, Canvas, Frame, BOTH, W, LAST
+from tkinter import Tk, Canvas, Frame, BOTH, W, E, LAST, RIGHT
+
+class Variable:
+    def __init__(self, name, type, sp_offset):
+        self.name = name
+        self.type = type
+        self.sp_offset = sp_offset
 
 class Box:
     def __init__(self, x, y, width, height):
@@ -72,9 +78,10 @@ class Arrow:
 
 
 class MemoryDiagram(Frame):
-    def __init__(self, memory, boxWidth = 100, boxHeight = 50):
+    def __init__(self, memory, variable_info, boxWidth = 100, boxHeight = 50):
         super().__init__()
         self.memory = memory
+        self.variable_info = variable_info
         self.address_mapping = {}
         self.boxWidth = boxWidth
         self.boxHeight = boxHeight
@@ -91,7 +98,7 @@ class MemoryDiagram(Frame):
 
     def drawDiagram(self):
         self.drawStackBoxes()
-        self.canvas.create_line(2 * self.boxWidth, 0, 2 * self.boxWidth, 1000, dash=(4,2))
+        self.canvas.create_line(3.5 * self.boxWidth, 0, 3.5 * self.boxWidth, 1000, dash=(4,2))
         self.drawHeapBoxes()
         self.generateHeapArrows()
         self.generateStackArrows()
@@ -123,13 +130,25 @@ class MemoryDiagram(Frame):
 
     def drawStackBoxes(self):
         stack_objs = self.memory["thread stacks"][0]["contents"]
-        #stack_objs = stack_objs[1:-1]
-        self.drawArray(self.boxWidth / 2, self.boxHeight / 2, self.boxWidth, self.boxHeight, len(stack_objs), True, stack_objs)
-        #print(json.dumps(self.address_mapping, indent=4, sort_keys=True))
+        stack_ptr = int(self.memory["thread stacks"][0]["address"], 16)
+        self.filtered_objs = []
+
+        x_loc = 2 * self.boxWidth - 15
+        y_loc = self.boxHeight
+        for obj in stack_objs:
+            sp_offset = int(obj["address"], 16) - stack_ptr
+            if sp_offset in self.variable_info:
+                variable = self.variable_info[sp_offset]
+                self.canvas.create_text(x_loc, y_loc, anchor=E, font="Roboto", text=("(" + variable.type + ") " + variable.name))
+                y_loc += self.boxHeight
+                self.filtered_objs.append(obj)
+
+
+        self.drawArray(2 * self.boxWidth, self.boxHeight / 2, self.boxWidth, self.boxHeight, len(self.filtered_objs), True, self.filtered_objs)
 
     def drawHeapBoxes(self):
         heap_objs = self.memory["heap objects"]
-        x_loc = int(2.5 * self.boxWidth)
+        x_loc = int(4 * self.boxWidth)
         y_loc = self.boxHeight / 2
         for i in range(len(heap_objs)):
             objs = heap_objs[i]["contents"]
@@ -137,9 +156,7 @@ class MemoryDiagram(Frame):
             y_loc += self.boxWidth
 
     def generateStackArrows(self):
-        stack_objs = self.memory["thread stacks"][0]["contents"]
-        #stack_objs = stack_objs[1:-1]
-        for obj in stack_objs:
+        for obj in self.filtered_objs:
             if "points-to-base" in obj:
                 if obj["points-to-type"] == "stack":
                     start_box = self.address_mapping[int(obj["address"], 16)]
@@ -228,18 +245,49 @@ if __name__ == "__main__":
         if dumpFile != None:
             break
     dumpLine += 1
-    print("DUMP AT " + dumpFile + ":" + str(dumpLine))
+    #print("DUMP AT " + dumpFile + ":" + str(dumpLine))
     gdb_result = subprocess.Popen("gdb /tmp/memory_diagram/a.out", stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell=True)
     gdb_result_text = gdb_result.communicate(("break " + dumpFile + ":" + str(dumpLine) + "\n" + "r\n" + "source get_local_var_info.py\n" + "c\n" + "q\n").encode())
     gdb_result_txt_stdout = gdb_result_text[0].decode()
     gdb_result_txt_stderr = gdb_result_text[1].decode()
 
-    #print(json.dumps(json_outputs, indent=4, sort_keys=True))
+    print(json.dumps(json_outputs, indent=4, sort_keys=True))
 
-    print(gdb_result_txt_stdout)
+    #print(gdb_result_txt_stdout)
+    variables = {}
+    gdb_lines = gdb_result_txt_stdout.splitlines()
+    i = 0
+    while i < len(gdb_lines) and gdb_lines[i] != "##### GDB DEBUG INFO BEGIN ####":
+        i += 1
+    
+    if i == len(gdb_lines):
+        print("Error: GDB debug information not present");
+        exit(1);
+    i += 1
+    while gdb_lines[i] != "##### GDB DEBUG INFO END ####":
+        var_name = re.findall(r'"(.*)?"', gdb_lines[i])[0]
+        i += 1
+        var_type = re.findall(r'"(.*)?"', gdb_lines[i])[0]
+        i += 1
+        var_offset = int(re.findall(r'=\s(.*)?', gdb_lines[i])[0]) + 16
+        i += 1
+        variables[int(var_offset)] = Variable(var_name, var_type, var_offset)
+    
+    print("-----------------------")
+    for key in variables.keys():
+        var = variables[key]
+        print("name: " + var.name)
+        print("type: " + var.type)
+        print("offset: " + str(var.sp_offset))
+        print("-----------------------")
+
+
+
+
+
 
     root = Tk()
-    md = MemoryDiagram(json_outputs[0])
+    md = MemoryDiagram(json_outputs[0], variables)
     root.geometry("1000x1000")
     root.mainloop()
 
