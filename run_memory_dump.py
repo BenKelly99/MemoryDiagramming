@@ -209,13 +209,33 @@ if __name__ == "__main__":
     arguments = " ".join(sys.argv[1::])
     os.system("mkdir -p /tmp/memory_diagram")
     os.system("rm -rf /tmp/memory_diagram/*")
-    os.system("g++ " + arguments + " -g -O0 -I/work/drmemory/releases/DrMemory-Linux-2.3.18322/drmf/include /work/drmemory/releases/DrMemory-Linux-2.3.18322/drmf/lib64/release/libdrmemory_annotations.a -o /tmp/memory_diagram/a.out")
+    os.system("g++ " + arguments + " -g3 -O0 -I/work/drmemory/releases/DrMemory-Linux-2.3.18322/drmf/include /work/drmemory/releases/DrMemory-Linux-2.3.18322/drmf/lib64/release/libdrmemory_annotations.a -o /tmp/memory_diagram/a.out")
     result = subprocess.run("/work/drmemory/releases/DrMemory-Linux-2.3.18322/bin64/drmemory -brief -- /tmp/memory_diagram/a.out", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     json_files = re.findall(r'^\s*~~Dr\.M~~ Memory layout written to: (\/tmp\/Dr\. Memory\/DrMemory-a\.out\..*?\.json)$', result.stderr.decode('utf-8'), re.MULTILINE)
     json_outputs = []
     for file in json_files:
         with open(file) as f:
             json_outputs.append(json.load(f))
+    dumpFile = None
+    dumpLine = None
+    for filename in sys.argv[1::]:
+        with open(filename) as myFile:
+            for num, line in enumerate(myFile, 1):
+                if "DRMEMORY_ANNOTATE_DUMP_MEMORY_LAYOUT();" in line:
+                    dumpLine = num
+                    dumpFile = filename
+                    break
+        if dumpFile != None:
+            break
+    dumpLine += 1
+    print("DUMP AT " + dumpFile + ":" + str(dumpLine))
+    gdb_result = subprocess.Popen("gdb /tmp/memory_diagram/a.out", stdin = subprocess.PIPE, shell=True)
+    gdb_result.stdin.write(("break " + dumpFile + ":" + str(dumpLine) + "\n").encode())
+    gdb_result.stdin.write(b"r\n")
+    gdb_result.stdin.write(b"source get_local_var_info.py\n")
+    gdb_result.stdin.write(b"c\n")
+    gdb_result.stdin.write(b"q\n")
+    text = gdb_result.stdout.read()
 
     print(json.dumps(json_outputs, indent=4, sort_keys=True))
 
@@ -223,3 +243,5 @@ if __name__ == "__main__":
     md = MemoryDiagram(json_outputs[0])
     root.geometry("1000x1000")
     root.mainloop()
+
+    print(text)
