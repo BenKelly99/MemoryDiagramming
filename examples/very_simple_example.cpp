@@ -12,5 +12,4 @@ int main(){
     *var_w = var_y;
     long* var_v = var_z + 1;
     DRMEMORY_ANNOTATE_DUMP_MEMORY_LAYOUT();
-    long y = 100;
 }

@@ -231,14 +231,16 @@ if __name__ == "__main__":
     print("DUMP AT " + dumpFile + ":" + str(dumpLine))
     gdb_result = subprocess.Popen("gdb /tmp/memory_diagram/a.out", stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell=True)
     gdb_result_text = gdb_result.communicate(("break " + dumpFile + ":" + str(dumpLine) + "\n" + "r\n" + "source get_local_var_info.py\n" + "c\n" + "q\n").encode())
-    gdb_result_txt_stdout = gdb_result_text[0]
-    gdb_result_txt_stderr = gdb_result_text[1]
+    gdb_result_txt_stdout = gdb_result_text[0].decode()
+    gdb_result_txt_stderr = gdb_result_text[1].decode()
 
     #print(json.dumps(json_outputs, indent=4, sort_keys=True))
 
-    #root = Tk()
-    #md = MemoryDiagram(json_outputs[0])
-    #root.geometry("1000x1000")
-    #root.mainloop()
-
     print(gdb_result_txt_stdout)
+
+    root = Tk()
+    md = MemoryDiagram(json_outputs[0])
+    root.geometry("1000x1000")
+    root.mainloop()
+
+    
