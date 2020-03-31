@@ -15,11 +15,14 @@ being installed in a specific location and using a specific version.
 Linux is the only OS currently supported by the diagramming tool.
 
 Create and navigate to directory `/work/DrMemory/releases/`
+
 `wget https://github.com/DynamoRIO/drmemory/releases/download/release_2.3.18351/DrMemory-Linux-2.3.18351.tar.gz`
+
 `tar -xzf DrMemory-Linux-2.3.18351.tar.gz`
 
 You will need a recent version of the g++ compiler, the gdb debugging tool, and python3
 First, clone the repository:
+
 `git clone https://github.com/BenKelly99/MemoryDiagramming.git`
 
 Navigate to the folder containing the repo
