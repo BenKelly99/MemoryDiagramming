@@ -7,10 +7,11 @@ import json
 from tkinter import Tk, Canvas, Frame, BOTH, W, E, LAST, RIGHT
 
 class Variable:
-    def __init__(self, name, type, sp_offset):
+    def __init__(self, name, type, sp_offset, base_size):
         self.name = name
         self.type = type
         self.sp_offset = sp_offset
+        self.base_size = base_size
 
 class Box:
     def __init__(self, x, y, width, height):
@@ -78,10 +79,11 @@ class Arrow:
 
 
 class MemoryDiagram(Frame):
-    def __init__(self, memory, variable_info, boxWidth = 100, boxHeight = 50):
+    def __init__(self, memory, variable_info, unlabeled_variable_info, boxWidth = 100, boxHeight = 50):
         super().__init__()
         self.memory = memory
         self.variable_info = variable_info
+        self.unlabelled_variable_info = unlabeled_variable_info
         self.address_mapping = {}
         self.boxWidth = boxWidth
         self.boxHeight = boxHeight
@@ -140,6 +142,10 @@ class MemoryDiagram(Frame):
             if sp_offset in self.variable_info:
                 variable = self.variable_info[sp_offset]
                 self.canvas.create_text(x_loc, y_loc, anchor=E, font="Roboto", text=("(" + variable.type + ") " + variable.name))
+                y_loc += self.boxHeight
+                self.filtered_objs.append(obj)
+            elif sp_offset in self.unlabelled_variable_info:
+                variable = self.unlabelled_variable_info[sp_offset]
                 y_loc += self.boxHeight
                 self.filtered_objs.append(obj)
 
@@ -245,7 +251,6 @@ if __name__ == "__main__":
         if dumpFile != None:
             break
     dumpLine += 1
-    #print("DUMP AT " + dumpFile + ":" + str(dumpLine))
     gdb_result = subprocess.Popen("gdb /tmp/memory_diagram/a.out", stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell=True)
     gdb_result_text = gdb_result.communicate(("break " + dumpFile + ":" + str(dumpLine) + "\n" + "r\n" + "source get_local_var_info.py\n" + "c\n" + "q\n").encode())
     gdb_result_txt_stdout = gdb_result_text[0].decode()
@@ -255,6 +260,7 @@ if __name__ == "__main__":
 
     #print(gdb_result_txt_stdout)
     variables = {}
+    unlabeled_vars = {}
     gdb_lines = gdb_result_txt_stdout.splitlines()
     i = 0
     while i < len(gdb_lines) and gdb_lines[i] != "##### GDB DEBUG INFO BEGIN ####":
@@ -265,21 +271,32 @@ if __name__ == "__main__":
         exit(1);
     i += 1
     while gdb_lines[i] != "##### GDB DEBUG INFO END ####":
+        print("name = " + gdb_lines[i])
         var_name = re.findall(r'"(.*)?"', gdb_lines[i])[0]
         i += 1
         var_type = re.findall(r'"(.*)?"', gdb_lines[i])[0]
         i += 1
         var_offset = int(re.findall(r'=\s(.*)?', gdb_lines[i])[0]) + 16
         i += 1
-        variables[int(var_offset)] = Variable(var_name, var_type, var_offset)
+        var_size = int(re.findall(r'"(.*)?"', gdb_lines[i])[0])
+        i += 1
+        if len(var_type) >= 11 and "STACK-ARRAY" == var_type[0:11]:
+            length = int(re.findall(r'STACK-ARRAY LENGTH\[(.*?)?\]', var_type)[0])
+            var_type = re.findall(r'STACK-ARRAY LENGTH\[.*\] (.*)?', var_type)[0]
+            for j in range(1, length):
+                unlabeled_vars[var_offset + j * var_size] = Variable(var_name, var_type, var_offset, var_size)
+        variables[var_offset] = Variable(var_name, var_type, var_offset, var_size)
     
     print("-----------------------")
     for key in variables.keys():
         var = variables[key]
         print("name: " + var.name)
-        print("type: " + var.type)
+        print("type: " + str(var.type))
         print("offset: " + str(var.sp_offset))
         print("-----------------------")
+    
+    for key in unlabeled_vars.keys():
+        print("unlabeled offset: " + str(key))
 
 
 
@@ -287,7 +304,7 @@ if __name__ == "__main__":
 
 
     root = Tk()
-    md = MemoryDiagram(json_outputs[0], variables)
+    md = MemoryDiagram(json_outputs[0], variables, unlabeled_vars)
     root.geometry("1000x1000")
     root.mainloop()
 
